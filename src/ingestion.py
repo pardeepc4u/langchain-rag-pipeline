@@ -28,7 +28,7 @@ class DocumentIngestion:
             print(f"Warning: Path {doc_path} does not exist.")
             return []
             
-        loader = DirectoryLoader(doc_path, glob=".pdf", loader_cls=PyPDFLoader)
+        loader = DirectoryLoader(doc_path, glob="**/*.pdf", loader_cls=PyPDFLoader)
         documents = loader.load()
         print(f"Loaded {len(documents)} documents.")
         return documents
@@ -60,14 +60,14 @@ class DocumentIngestion:
 
 if __name__ == "__main__":
     # Ensure documents directory exists
-    os.makedirs("documents", exist_ok=True)
+    os.makedirs("data", exist_ok=True)
     
     # Create a dummy text file if none exists for testing
-    dummy_path = "documents/demo.txt"
-    if not os.listdir("documents"):
-        print("No documents found in 'documents' folder. Creating a dummy file for testing...")
+    dummy_path = "data/demo.txt"
+    if not os.listdir("data"):
+        print("No documents found in 'data' folder. Creating a dummy file for testing...")
         with open(dummy_path, "w") as f:
             f.write("LangChain is a framework for developing applications powered by language models. RAG stands for Retrieval-Augmented Generation.")
     
     ingester = DocumentIngestion()
-    ingester.process_and_store("documents")
+    ingester.process_and_store("data")

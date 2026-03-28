@@ -3,8 +3,9 @@ import sys
 from langchain_community.chat_models import ChatOllama
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import OllamaEmbeddings
-from langchain.chains import RetrievalQA
-from langchain.prompts import PromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
 from config import settings
 
 class RAGSystem:
@@ -46,23 +47,22 @@ class RAGSystem:
         Answer:
         """
         
-        self.PROMPT = PromptTemplate(
-            template=template, input_variables=["context", "question"]
-        )
+        self.PROMPT = ChatPromptTemplate.from_template(template)
 
         # Create the Retrieval Chain
-        self.qa_chain = RetrievalQA.from_chain_type(
-            llm=self.llm,
-            chain_type="stuff",
-            retriever=self.vectorstore.as_retriever(search_kwargs={"k": 3}),
-            chain_type_kwargs={"prompt": self.PROMPT},
-            return_source_documents=True
+        self.retriever = self.vectorstore.as_retriever(search_kwargs={"k": 3})
+        self.qa_chain = (
+            {"context": self.retriever, "question": RunnablePassthrough()}
+            | self.PROMPT
+            | self.llm
+            | StrOutputParser()
         )
 
     def ask_question(self, query: str):
         try:
-            result = self.qa_chain({"query": query})
-            return result["result"], result["source_documents"]
+            docs = self.retriever.invoke(query)
+            answer = self.qa_chain.invoke(query)
+            return answer, docs
         except Exception as e:
             return f"Error: {str(e)}", []
 
