@@ -1,7 +1,9 @@
-langchain>=0.1.2
-faiss-gpu>=1.7.1
-openai>=0.23.0
-numpy>=1.20.0
-pandas>=1.3.5
-torch>=1.9.0
-transformers>=4.10.0
+langchain>=0.1.0
+langchain-community>=0.0.10
+langchain-openai # Still useful for the generic interfaces
+ollama>=0.1.0
+chromadb>=0.4.0
+tiktoken>=0.5.0
+python-dotenv>=1.0.0
+pypdf>=4.0.0
+numpy>=1.24.0
