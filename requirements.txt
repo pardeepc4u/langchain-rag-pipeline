@@ -1,0 +1,9 @@
+langchain>=0.1.0
+langchain-community>=0.0.10
+langchain-openai # Still useful for the generic interfaces
+ollama>=0.1.0
+chromadb>=0.4.0
+tiktoken>=0.5.0
+python-dotenv>=1.0.0
+pypdf>=4.0.0
+numpy>=1.24.0
