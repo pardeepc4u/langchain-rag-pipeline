@@ -1,0 +1,33 @@
+[project]
+name = "langchain-rag-pipeline"
+version = "0.1.0"
+description = "RAG system using Ollama, LangChain, and Chroma for local embedding + vector search"
+authors = [
+    {name = "Pardeep Yadav",email = "pardeepc4u@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.12"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+langchain = "^1.2.13"
+langchain-community = "^0.4.1"
+langchain-core = "^1.2.23"
+ollama = "^0.1.0"
+chromadb = "^0.4.0"
+pypdf = "^4.0.0"
+python-dotenv = "^1.0.0"
+pydantic = "^2.8.1" # Type-safe settings
+click = "^8.1.07"    # CLI framework
+pytest = "^7.4.3"   # Testing
+mypy = "^1.5.1"     # Static analysis
+black = "^24.3.0"   # Code formatter
+pre-commit = "^4.4.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
