@@ -1,8 +1,8 @@
 import os
 from chromadb import PersistentClient
 from langchain_community.vectorstores import Chroma
-from core.embeddings import get_embeddings
-from config.settings import settings
+from src.core.embeddings import get_embeddings
+from src.config.settings import settings
 
 def get_vectorstore(persist_dir: str = settings.CHROMA_PERSIST_DIR):
     os.makedirs(persist_dir, exist_ok=True)

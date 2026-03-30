@@ -24,11 +24,39 @@ This repository showcases a RAG pipeline:
 
 - `data/`
   - `*.pdf` source docs (e.g. `RoofInvoice505.pdf`)
-- `src/config/config.py`
-  - `Settings` class and `settings` instance
-- `src/ingestion.py` (legacy ingestion path)
-- `src/ollama/ingestion.py` (Ollama-specific ingestion class)
+- `src/config/`
+  - `settings.py` configuration model and settings loader
+- `src/ingestion/`
+  - `loader.py` PDF loading and chunking
+- `src/core/`
+  - `embeddings.py` embedding creation
+  - `llm.py` LLM initialization
+- `src/storage/`
+  - `vectorstore.py` Chroma store connector
+- `src/rag/`
+  - `chain.py` QA retrieval chain (`get_qa_chain()` with prompt + retriever)
 - `src/rag_system.py` (RAG runtime and query loop)
+
+## Python package imports and __init__.py
+
+This project uses explicit package imports like `from src.ingestion.loader import split_documents`. For Python to treat these as proper packages in all execution contexts (local, CI, tests), each package directory must contain an `__init__.py` file.
+
+Added `__init__.py` in:
+
+- `src/`
+- `src/ingestion/`
+- `src/core/`
+- `src/config/`
+- `src/rag/`
+- `src/storage/`
+
+With these files in place, imports behave consistently and pytest path resolution is stable.
+
+## RAG chain updates
+
+- `src/rag/chain.py` now defines `get_qa_chain()` using `langchain_core` runnable-style implementation.
+- Replaced old `RetrievalQA` style with LCEL modern patterns (`RunnableParallel`, prompt -> llm -> `StrOutputParser`).
+- Source-document return remains the same (`source_documents`) and the custom citation prompt is preserved.
 
 ## Configuration
 

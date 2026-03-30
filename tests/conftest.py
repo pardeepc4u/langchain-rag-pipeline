@@ -16,7 +16,7 @@ def mock_embeddings():
 # Mock QA Chain
 @pytest.fixture
 def mock_qa_chain():
-    with patch("src.rag.chain.RetrievalQA") as MockQA:
+    with patch("src.rag.chain.get_qa_chain") as MockChain:
         instance = Mock()
         instance.invoke.return_value = {
             "result": "LangChain is a framework for LLM apps.",
@@ -27,7 +27,7 @@ def mock_qa_chain():
                 )
             ]
         }
-        MockQA.return_value = instance
+        MockChain.return_value = instance
         yield instance
 
         

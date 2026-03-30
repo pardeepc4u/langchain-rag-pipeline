@@ -2,7 +2,6 @@ import click
 from src.ingestion.loader import load_documents, split_documents
 from src.storage.vectorstore import create_vectorstore_from_chunks
 from src.rag.chain import get_qa_chain
-from config.settings import settings
 
 @click.group()
 def cli():
@@ -30,7 +29,7 @@ def query(query):
     """Ask a question about your documents."""
     try:
         chain = get_qa_chain()
-        result = chain({"query": query})
+        result = chain.invoke({"query": query})
         
         click.echo("\n" + "="*50)
         click.echo(click.style("ANSWER:", fg="cyan"))

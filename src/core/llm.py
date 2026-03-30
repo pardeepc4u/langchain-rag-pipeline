@@ -1,5 +1,5 @@
 from langchain_community.chat_models import ChatOllama
-from config.settings import settings
+from src.config.settings import settings
 
 def get_llm() -> ChatOllama:
     return ChatOllama(
